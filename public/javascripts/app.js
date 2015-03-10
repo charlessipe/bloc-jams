@@ -96,7 +96,7 @@ require.register("scripts/album", function(exports, require, module) {
 
 // Example album
 var albumPicasso = {
-  name: 'The Colors',
+  name: 'Introduction to Algorithms',
   artist: 'Pablo Picasso',
   label: 'Cubism',
   year: '1881',
