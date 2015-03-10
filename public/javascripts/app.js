@@ -92,34 +92,7 @@
 })();
 require.register("scripts/album", function(exports, require, module) {
 
-var changeAlbumView = function(album) {
-  // Update the album title
-  var $albumTitle = $('album-title');
-  $albumTitle.text(album.name);
 
-  // Update the album artist
-  var $albumArtist = $('.album-artist');
-  $albumArtist.text(album.artist);
-
-  // Update the meta information
-  var $albumMeta = $('.album-meta-info');
-  $albumMeta.text(album.year + " on " + album.label);
-
-  // Update the album image
-  var $albumImage = $('.album-image img');
-  $albumImage.attr('src', album.albumArtUrl);
-
-  // Update the Song List
-  var $songList = $(".album-song-listening");
-  $songList.empty();
-  var songs = album.songs;
-  for (var i = 0; i < songs.length; i++) {
-    var songData = songs[i];
-    var $newRow = createSongRow(i + 1, songData.name, songData.length);
-    $songList.append($newRow);
-  }
-
-};
 
 // Example album
 var albumPicasso = {
@@ -154,16 +127,46 @@ var albumMarconi = {
 };
 
 var createSongRow = function(songNumber, songName, songLength) {
-  var template = 
+  var template =
     '<tr>'
-    ' <td class="col-md-1">' + songNumber + '</td>'
-    ' <td class="col-md-9">' + songName + '</td>'
-    ' <td class="col-md-2">' + songLength + '</td>'
+    +'  <td class="col-md-1">' + songNumber + '</td>'
+    +'  <td class="col-md-9">' + songName + '</td>'
+    +'  <td class="col-md-2">' + songLength + '</td>'
     '</tr>'
     ;
 
     return $(template);
 };
+
+var changeAlbumView = function(album) {
+  // Update the album title
+  var $albumTitle = $('.album-title');
+  $albumTitle.text(album.name);
+
+  // Update the album artist
+  var $albumArtist = $('.album-artist');
+  $albumArtist.text(album.artist);
+
+  // Update the meta information
+  var $albumMeta = $('.album-meta-info');
+  $albumMeta.text(album.year + " on " + album.label);
+
+  // Update the album image
+  var $albumImage = $('.album-image img');
+  $albumImage.attr('src', album.albumArtUrl);
+
+  // Update the Song List
+  var $songList = $(".album-song-listing");
+  $songList.empty();
+  var songs = album.songs;
+  for (var i = 0; i < songs.length; i++) {
+    var songData = songs[i];
+    var $newRow = createSongRow(i + 1, songData.name, songData.length);
+    $songList.append($newRow);
+  }
+
+};
+
 
 // This 'if' condition is used to prevent the jQuery modifications
 // from happening on non-Album view pages.
@@ -172,6 +175,7 @@ if (document.URL.match(/\/album.html/)) {
   // Wait until the HTML is fully processed. 
   $(document).ready(function() {
     changeAlbumView(albumPicasso);
+
   });
 }
 
@@ -211,6 +215,8 @@ var buildAlbumThumbnail = function() {
       + '      <br/>'
       + '      X songs'
       + '      <br/>'
+      + '      X:XX Total Length'
+      + '      <br/>'
       + '    </p>'
       + '  </div>'
       + '</div>';
@@ -221,8 +227,9 @@ var buildAlbumThumbnail = function() {
 var updateCollectionView = function() {
   var $collection = $(".collection-container .row");
   $collection.empty();
+  var random = Math.floor((Math.random() * 75) + 26);
 
-  for (var i = 0; i < 33; i++) {
+  for (var i = 0; i < random; i++) {
     var $newThumbnail = buildAlbumThumbnail();
     $collection.append($newThumbnail);
   }
