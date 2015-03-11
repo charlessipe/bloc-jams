@@ -83,6 +83,9 @@ if (document.URL.match(/\/album.html/)) {
   $(document).ready(function() {
     changeAlbumView(albumPicasso);
 
+    $('img').click(function() {
+    changeAlbumView(albumMarconi);
+    });
   });
 }
 
