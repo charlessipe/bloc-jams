@@ -21,20 +21,22 @@ var buildAlbumThumbnail = function() {
    return $(template);
  };
 
+// below the buildAlbumThumbnail function
+
 var buildAlbumOverlay = function(albumURL) {
   var template = 
-      '<div class="collection-album-image-overlay">'
-    +'  <div class="collection-overlay-content">'
-    +'    <a class="collection-overlay-button" href="' + albumURL + '">'
-    +'      <i class="fa fa-play"></i>'
-    +'    </a>'
-    +'    &nbsp;'
-    +'    <a class="collection-overlay-button">'
-    +'      <i class="fa fa-plus"></i>'
-    +'    </a>'
-    +'   </div>'
-    +'  </div>'
-    ;
+    '<div class="collection-album-image-overlay">'
+  + '   <div class="collection-overlay-content">'
+  + '     <a class="collection-overlay-button" href="' + albumURL + '">'
+  + '       <i class="fa fa-play"></i>'
+  + '     </a>'
+  + '     &nbsp;'
+  + '     <a class="collection-overlay-button">'
+  + '       <i class="fa fa-plus"></i>'
+  + '     </a>'
+  + '   </div>'
+  + ' </div>'
+  ;
   return $(template);
 };
 
