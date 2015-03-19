@@ -1,3 +1,8 @@
+@import "landing";
+@import "album";
+@import "collection";
+@import "player_bar";
+
 html {
   height: 100%;
 }
@@ -17,6 +22,7 @@ body.landing {
   padding-bottom: 0;
 }
 
+/*
 .hero-content {
   background: #2F1D57;
   padding: 100px;
@@ -61,6 +67,8 @@ body.landing {
 // medium-purple: #7B46A3 - 123, 70, 163
 //
 
+
+
 .player-header-nav {
   background-color: rgba(123, 70, 163, .9);
 }
@@ -68,7 +76,7 @@ body.landing {
 body.landing .navbar {
   margin-bottom: 0;
 }
-
+/*
 .hero-content {
   background: #2F1D57;
   padding: 100px 0;
@@ -393,5 +401,5 @@ td.song-number {
   vertical-align: middle;
 }
 
-
+*/
 
