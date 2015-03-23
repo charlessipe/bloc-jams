@@ -226,6 +226,19 @@ td.song-number {
     margin-top: -10px;
     margin-left: -10px; }
 
+.user-profile-header {
+  border: none;
+  font-size: 24px;
+  font-weight: 300;
+  margin-top: 20px; }
+
+.user-image-container {
+  display: inline-block; }
+
+.tab-content.user-subscription .well {
+  background: transparent;
+  border: #d2287b 2px solid; }
+
 html {
   height: 100%; }
 
