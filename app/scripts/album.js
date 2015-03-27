@@ -186,6 +186,7 @@ var setupSeekBars = function() {
  
 };
 
+//drag and drop
 /*
 $seekBars.find('.thumb').mousedown(function(event){
   var $seekBar = $(this).parent();
@@ -203,8 +204,8 @@ $seekBars.find('.thumb').mousedown(function(event){
   });
  
 });
-
 */
+
 
 
 // This 'if' condition is used to prevent the jQuery modifications
