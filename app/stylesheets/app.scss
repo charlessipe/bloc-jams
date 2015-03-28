@@ -74,6 +74,21 @@ body.landing {
 
 .player-header-nav {
   background-color: rgba(123, 70, 163, .9);
+    .navbar-nav {
+      a {
+        line-height: 45px;
+        color: white;
+        text-tranform: uppercase;
+        font-weight: 700;
+        letter-spacing: 1.2;
+
+      &:hover {
+        color: rgba(123, 70, 163, .9);
+      }
+
+      }
+    }
+
 }
 
 body.landing .navbar {
