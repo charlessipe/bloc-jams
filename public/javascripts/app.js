@@ -359,6 +359,9 @@ blocJams.controller('Collection.controller', ['$scope', function($scope) {
     for (var i = 0; i < 33; i++) {
       $scope.albums.push(angular.copy(albumPicasso));
     }
+
+  //ConsoleLogger.log();
+
 }]);
 
 
@@ -416,7 +419,7 @@ $scope.albumURLs = [
 
  }]);
 
-blocJams.controller('Album.controller', ['$scope', 'SongPlayer', function($scope, SongPlayer) {
+blocJams.controller('Album.controller', ['$scope', 'SongPlayer', 'ConsoleLogger', function($scope, SongPlayer, ConsoleLogger) {
   $scope.album = angular.copy(albumPicasso);
 
     var hoveredSong = null;
@@ -448,6 +451,7 @@ blocJams.controller('Album.controller', ['$scope', 'SongPlayer', function($scope
         SongPlayer.pause();
       };
 
+      //ConsoleLogger.log();
 }]);
 
 // Use UI Router for playbar
@@ -460,31 +464,23 @@ blocJams.config(function($stateProvider) {
         "playbar": { template: "/templates/player_bar.html" }
       }
     })
-    .state('route1', {
-      url: "/route1",
-      views: {
-        "viewA": { template: "route1.viewA" },
-        "viewB": { template: "route1.viewB" }
-      }
-    })
-    .state('route2', {
-      url: "/route2",
-      views: {
-        "viewA": { template: "route2.viewA" },
-        "viewB": { template: "route2.viewB" }
-      }
-    })
-   
 });
 
 */
 
-blocJams.controller('PlayerBar.controller', ['$scope', 'SongPlayer', function($scope, SongPlayer) {
+blocJams.controller('PlayerBar.controller', ['$scope', 'SongPlayer', 'ConsoleLogger', function($scope, SongPlayer, ConsoleLogger) {
   $scope.songPlayer = SongPlayer;
+
+  //ConsoleLogger.log();
+
 }]);
 
  
 blocJams.service('SongPlayer', function() {
+  var trackIndex = function(album, song) {
+    return album.songs.indexOf(song);
+  };
+
   return {
     currentSong: null,
     currentAlbum: null,
@@ -496,11 +492,32 @@ blocJams.service('SongPlayer', function() {
     pause: function() {
       this.playing = false;
     },
+    next: function() {
+      var currentTrackIndex = trackIndex(this.currentAlbum, this.currentSong);
+      currentTrackIndex++;
+      if (currentTrackIndex >= this.currentAlbum.songs.length) {
+        currentTrackIndex = 0;
+      }
+      this.currentSong = this.currentAlbum.songs[currentTrackIndex];
+    },
+    previous: function() {
+      var currentTrackIndex = trackIndex(this.currentAlbum, this.currentSong);
+      currentTrackIndex--;
+      if (currentTrackIndex < 0) {
+        currentTrackIndex = this.currentAlbum.songs.length - 1;
+      }
+      this.currentSong = this.currentAlbum.songs[currentTrackIndex];
+    },
+
     setSong: function(album, song) {
       this.currentAlbum = album;
       this.currentSong = song;
     }
   };
+});
+
+blocJams.service('ConsoleLogger', function() {
+  console.log("Hello Earth");
 });
 
 
