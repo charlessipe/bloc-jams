@@ -6,7 +6,7 @@
         <img ng-src="{{ album.albumArtUrl }}">
         <div class="collection-album-image-overlay" ng-hide="!showOverlay">
           <div class="collection-overlay-content">
-            <a class="collection-overlay-button" ui-sref="album">
+            <a class="collection-overlay-button" ng-click="playAlbum(album)">
               <i class="fa fa-play"></i>
             </a>
             &nbsp;
@@ -28,8 +28,8 @@
       </div>
     </div>
   </div>
-    <div ui-view="playbar"></div>
-    <!-- <ng-include src="'/templates/player_bar.html'"></ng-include> -->
+    <!-- <div ui-view="playbar"></div> -->
+    <ng-include src="'/templates/player_bar.html'"></ng-include> 
 </div>
 
 
