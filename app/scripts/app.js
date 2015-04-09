@@ -209,8 +209,9 @@ blocJams.service('ConsoleLogger', function() {
   console.log("Hello Earth");
 });
 
-blocJams.directive('slider', function(){
+blocJams.directive('slider', ['$document', function($document){
 
+/*
   var updateSeekPercentage = function($seekBar, event) {
     var barWidth = $seekBar.width();
     var offsetX =  event.pageX - $seekBar.offset().left;
@@ -223,15 +224,65 @@ blocJams.directive('slider', function(){
     $seekBar.find('.fill').width(percentageString);
     $seekBar.find('.thumb').css({left: percentageString});
   }
+*/
  
   return {
     templateUrl: '/templates/directives/slider.html',
     replace: true,
     restrict: 'E',
+      scope: {}, // Creates a scope
     link: function(scope, element, attributes) {
- 
-      var $seekBar = $(element);
- 
+      // These values represent the progress into the song/volume bar, and its max value.
+      // For now, we're supplying arbitrary initial and max values.
+      scope.value = 0;
+      scope.max = 200;
+    var $seekBar = $(element); // sets the seekbar variable to $(element)
+
+      var percentString = function () {   // Calculate the position
+        var percent = Number(scope.value) / Number(scope.max) * 100;
+        return percent + "%"; 
+      }
+
+      scope.fillStyle = function() {
+        return {width: percentString()};
+      }
+
+      scope.thumbStyle = function() {
+        return {left: percentString()};
+      }
+
+      scope.onClickSlider = function(event) {  // Function to change the slider location
+        var percent = calculateSliderPercentFromMouseEvent($seekBar, event);
+        scope.value = percent * scope.max;
+      }
+
+      var calculateSliderPercentFromMouseEvent = function($slider, event) {  // Function to determine slider location where the event occured
+        var offsetX = event.pageX - $slider.offset().left; // Distace from left
+        var sliderWidth = $slider.width(); // Width of slider
+        var offsetXPercent = (offsetX / sliderWidth); 
+        offsetXPercent = Math.max(0, offsetXPercent);
+        offsetXPercent = Math.min(1, offsetXPercent);
+        return offsetXPercent;
+      }
+
+      scope.trackThumb = function() { // Function for dragging slider
+        $document.bind('mousemove.thumb', function(event){
+          var percent = calculateSliderPercentFromMouseEvent($seekBar, event);
+          scope.$apply(function(){  // $apply looks for changes affected by the function called on the jQuery mousemove event
+            scope.value = percent * scope.max;
+          });  
+        });
+
+        //cleanup
+        $document.bind('mouseup.thumb', function(){  // $document is an Angular wrapper for the browser's window.document object
+          $document.unbind('mousemove.thumb');
+          $document.unbind('mouseup.thumb');
+        });
+
+      };
+
+
+ /*
       $seekBar.click(function(event) {
         updateSeekPercentage($seekBar, event);
       });
@@ -250,11 +301,38 @@ blocJams.directive('slider', function(){
           $(document).unbind('mouseup.thumb');
         });
  
-      });
+      }); */
+    }
+  };
+}]);
+
+/*
+blocJams.directive("clickMe", function() {
+  return {
+    restrict: "E", 
+    link: function(scope, element) {
+      $(element).click(function(){
+        alert("This has been clicked");
+      )};
     }
   };
 });
+*/
 
+/*
+blocJams.directive("countHoverTime", function() {
+  return {
+    restrict: "A", 
+    link: function() {
+      var seconds; 
+      for($(count-hover-time).window.setTimeout(1000)){
+        seconds +=1;
+      };
+      console.log("This has been hovered for " + seconds + " seconds");
+    };
+  };
+})
+*/
 
 
 
