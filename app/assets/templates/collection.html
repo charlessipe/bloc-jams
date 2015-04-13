@@ -32,8 +32,34 @@
     <ng-include src="'/templates/player_bar.html'"></ng-include> 
 </div>
 <footer>
-<click-me>Click Me</click-me>
-<div count-hover-time> Count Hover Time </div>
+<click-me class="alert-me">Click Me for an Alert</click-me>
+<div count-hover-time> Count Hover Time Seconds and Log to Console</div>
+
+<script>
+/*
+      $('.alert-me').click(function(){
+        alert("This has been clicked");
+      };
+*/
+
+// Create directive countHoverTime, restricted to an attribute, console.log number of seconds hovered
+
+/*
+blocJams.directive('countHoverTime', function() {
+
+  return {
+    restrict: "A", 
+    link: function() {
+      var seconds; 
+      while($(count-hover-time).window.setTimeout(1000)){
+        seconds +=1;
+      };
+      console.log("This has been hovered for " + seconds + " seconds");
+    };
+  };
+})
+*/
+</script>
 </footer>
 
       
