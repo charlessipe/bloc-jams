@@ -144,12 +144,18 @@ blocJams.config(function($stateProvider) {
 blocJams.controller('PlayerBar.controller', ['$scope', 'SongPlayer', 'ConsoleLogger', function($scope, SongPlayer, ConsoleLogger) {
   $scope.songPlayer = SongPlayer;
 
+    SongPlayer.onTimeUpdate(function(event, time) {
+      $scope.$apply(function(){
+        $scope.playTime = time;
+      });
+    });
+
   //ConsoleLogger.log();
 
 }]);
 
  
-blocJams.service('SongPlayer', function() {
+blocJams.service('SongPlayer', ['$rootScope', function($rootScope) {
   var currentSoundFile = null;
   var trackIndex = function(album, song) {
     return album.songs.indexOf(song);
@@ -197,21 +203,30 @@ blocJams.service('SongPlayer', function() {
       }
     },
 
+      onTimeUpdate: function(callback) {
+        return $rootScope.$on('sound:timeupdate', callback); // Adding this method will allow us to execute a callback on every time update.
+      },
+
     setSong: function(album, song) {
         if (currentSoundFile) {
           currentSoundFile.stop();  
         }
       this.currentAlbum = album;
       this.currentSong = song;
+
         currentSoundFile = new buzz.sound(song.audioUrl, {
           formats: [ "mp3" ],
           preload: true
         });
 
+        currentSoundFile.bind('timeupdate', function(e){
+          $rootScope.$broadcast('sound:timeupdate', this.getTime());
+        });
+
         this.play();
     }
   };
-});
+}]);
 
 blocJams.service('ConsoleLogger', function() {
   console.log("Hello Earth");
@@ -353,6 +368,37 @@ blocJams.directive('slider', ['$document', function($document){
     }
   };
 }]);
+
+
+blocJams.filter('timecode', function(){
+  return function(seconds) {
+    seconds = Number.parseFloat(seconds);
+ 
+    // Returned when no time is provided.
+    if (Number.isNaN(seconds)) {
+      return '-:--';
+    }
+ 
+    // make it a whole number
+    var wholeSeconds = Math.floor(seconds);
+ 
+    var minutes = Math.floor(wholeSeconds / 60);
+ 
+    remainingSeconds = wholeSeconds % 60;
+ 
+    var output = minutes + ':';
+ 
+    // zero pad seconds, so 9 seconds should be :09
+    if (remainingSeconds < 10) {
+      output += '0';
+    }
+ 
+    output += remainingSeconds;
+ 
+    return output;
+  }
+})
+
 
 
 // Create directive clickMe, restricted to an element, creates an alert when clicked
